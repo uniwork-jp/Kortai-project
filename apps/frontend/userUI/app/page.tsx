@@ -6,6 +6,7 @@ import {
   Button,
 } from '@mui/material'
 import Link from 'next/link'
+import Date from './_components/Date'
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
       <Typography variant="h4">
         top
       </Typography>
+      <Date date="2024-01-15" time="14:30" />
       <Link href="/menu">
         <Button variant="contained">
           Menu

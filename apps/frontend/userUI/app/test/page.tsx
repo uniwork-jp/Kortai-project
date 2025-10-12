@@ -1,12 +1,7 @@
 'use client'
 
-import BottomBar from '../_components/BottomBar'
-import ChatContainer from '../_components/ChatContainer'
-import HeaderBar from '../_components/HeaderBar'
 import Chat from '../chat/Chat'
-import Talk from '../_components/ChatText.user'
 import { BackgroundContainer, MobileContainer } from '@ai-assistant/components'
-import DateBadge from '../_components/DateBadge'
 import MicrophoneDemo from './MicrophoneDemo'
 
 // Mock messages for testing
@@ -35,24 +30,11 @@ export default function TestPage() {
   return (
     <BackgroundContainer>
       <MobileContainer>
-        <HeaderBar/>
-        <ChatContainer>
-          <DateBadge/>
-          
-          {/* MicrophoneDemo Component */}
-          <MicrophoneDemo onTranscript={handleTranscript} />
-          
-          {/* Original Chat Component */}
-          <Chat />
-
-          <BottomBar
-            onSendMessage={() => {}}
-            isLoading={false}
-            isRecording={false}
-            micDisabled={false}
-            micError={false}
-          />
-        </ChatContainer>
+        {/* MicrophoneDemo Component */}
+        <MicrophoneDemo onTranscript={handleTranscript} />
+        
+        {/* Original Chat Component */}
+        <Chat />
       </MobileContainer>
     </BackgroundContainer>
   )
