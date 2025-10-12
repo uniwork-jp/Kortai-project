@@ -55,11 +55,8 @@ export default function ConfirmPage() {
     // Clear cart after confirmation
     clearCart()
     
-    // Show success message or redirect
-    alert('注文が確定しました！ありがとうございます。')
-    
-    // Redirect to menu page
-    router.push('/menu')
+    // Redirect to reservations page
+    router.push('/reservations')
   }
 
   const handleCancelOrder = () => {
@@ -179,7 +176,7 @@ export default function ConfirmPage() {
                     }
                     secondary={
                       <Box>
-                        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                        <Typography component="span" variant="body2" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
                           {item.description}
                         </Typography>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -189,11 +186,11 @@ export default function ConfirmPage() {
                             color="primary" 
                             variant="outlined"
                           />
-                          <Typography variant="body2" color="text.secondary">
+                          <Typography component="span" variant="body2" color="text.secondary">
                             数量: {item.quantity}個
                           </Typography>
                         </Box>
-                        <Typography variant="h6" color="primary" sx={{ fontWeight: 'bold' }}>
+                        <Typography component="span" variant="body1" color="primary" sx={{ fontWeight: 'bold', fontSize: '1.1rem', display: 'block' }}>
                           ¥{item.subtotal.toLocaleString()}
                         </Typography>
                       </Box>
