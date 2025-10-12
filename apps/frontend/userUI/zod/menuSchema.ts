@@ -33,14 +33,20 @@ export const menuItemSchema = z.object({
   category: z.string(),
   isAvailable: z.boolean().default(true),
   tags: z.array(z.string()).optional(),
-  allergens: z.array(z.string()).optional()
+  allergens: z.array(z.string()).optional(),
+  thai_name: z.string().optional(),
+  pictureUri: z.string().optional(),
+  imageUrl: z.string().optional()
 })
 
 export const categorySchema = z.object({
   id: z.string(),
   title: z.string(),
   imageUrl: z.string(),
-  price: z.number()
+  price: z.number(),
+  name: z.string(),
+  thai_name: z.string(),
+  ja_name: z.string()
 })
 
 export const menuSchema = z.object({

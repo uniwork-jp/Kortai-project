@@ -6,7 +6,7 @@ import {
   Paper,
   Divider
 } from '@mui/material'
-import MenuCard from './MenuCard'
+import ThumbCard from './ThumbCard'
 import { MenuItem, Category } from '../../zod'
 import { useCart } from './CartContext'
 
@@ -36,10 +36,6 @@ export default function CategoryContainer({ menuItems, category }: CategoryConta
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h4" sx={{ mb: 3, textAlign: 'center' }}>
-        メニュー一覧
-      </Typography>
-      
       {items.length === 0 ? (
         <Paper elevation={2} sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="h6" color="text.secondary">
@@ -50,26 +46,25 @@ export default function CategoryContainer({ menuItems, category }: CategoryConta
           </Typography>
         </Paper>
       ) : (
-        <Box sx={{ mb: 4 }}>
+        <Box gap={1} display="flex" flexDirection="column" sx={{ mb: 4 }}>
           {/* Category Header */}
-          <Paper elevation={1} sx={{ p: 2, mb: 2, backgroundColor: 'primary.main', color: 'white' }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', textAlign: 'center' }}>
-              {category.title}
-            </Typography>
-          </Paper>
+          <Typography variant="h5" sx={{ fontWeight: 'normal', textAlign: 'left' }}>
+            {category.ja_name} &nbsp; <span style={{ fontSize: '0.7em', fontWeight: 'normal' }}>{category.thai_name}</span>
+          </Typography>
 
-          {/* Menu Items Grid */}
-          <Grid container spacing={3} justifyContent="center">
+          {/* Menu Items */}
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, justifyContent: 'center', mt: 1, mb: 1, pb: 1 }}>
             {items.map((item) => (
-              <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
-                <MenuCard
-                  item={item}
-                  quantity={getItemCount(item.id)}
-                  onQuantityChange={handleQuantityChange}
+                <ThumbCard
+                  key={item.id}
+                  title={item.name}
+                  imageUrl={item.pictureUri || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop'}
+                  menuId={item.id}
+                  price={item.price}
+                  cartCount={getItemCount(item.id)}
                 />
-              </Grid>
             ))}
-          </Grid>
+          </Box>
         </Box>
       )}
     </Box>

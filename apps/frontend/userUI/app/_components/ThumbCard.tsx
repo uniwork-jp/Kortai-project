@@ -28,8 +28,8 @@ export default function ThumbCard({
   return (
     <Card 
       sx={{ 
-        width: 200,
-        height: 200,
+        width: '100%',
+        aspectRatio: '1',
         cursor: onClick ? 'pointer' : 'default',
         transition: 'transform 0.2s ease-in-out',
         position: 'relative',

@@ -2,13 +2,12 @@
 
 import { useState, useMemo } from 'react'
 import { Box, Typography, Grid, Button } from '@mui/material'
-import ThumbCard from '../_components/ThumbCard'
-import MenuCard from '../_components/MenuCard'
 import ShoppedContainer from '../_components/ShoppedContainer'
 import CategoryContainer from '../_components/CategoryContainer'
 import { MenuItem, Category, rawMenuSchema, RawMenuCategory, RawMenuItem } from '../../zod'
 import { useCart } from '../_components/CartContext'
 import menuData from '../../menu.json'
+import menuImages from '../../menuImages.json'
 
 export default function Menu() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
@@ -22,8 +21,11 @@ export default function Menu() {
     const categories: Category[] = validatedMenu.menu.categories.map((category: RawMenuCategory) => ({
       id: category.id,
       title: category.ja_name,
-      imageUrl: getCategoryImage(category.id),
-      price: calculateAveragePrice(category.items)
+      imageUrl: category.imageUrl,
+      price: calculateAveragePrice(category.items),
+      name: category.name,
+      thai_name: category.thai_name,
+      ja_name: category.ja_name
     }))
 
     const menuItems: Record<string, MenuItem[]> = {}
@@ -34,7 +36,9 @@ export default function Menu() {
         description: item.description,
         price: item.price,
         category: category.ja_name,
-        isAvailable: true
+        isAvailable: true,
+        thai_name: item.thai_name,
+        pictureUri: menuImages[item.id as keyof typeof menuImages] || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
       }))
     })
 
@@ -45,19 +49,6 @@ export default function Menu() {
     return { categories, menuItems }
   }, [])
 
-  // Helper function to get category image
-  function getCategoryImage(categoryId: string): string {
-    const imageMap: Record<string, string> = {
-      'grilled-fried': 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
-      'salads': 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=400&fit=crop',
-      'others': 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=400&fit=crop',
-      'noodles': 'https://images.unsplash.com/photo-1552611052-33e04b0813e7?w=400&h=400&fit=crop',
-      'stir-fried': 'https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=400&h=400&fit=crop',
-      'curries': 'https://images.unsplash.com/photo-1563379091339-03246963d96a?w=400&h=400&fit=crop',
-      'rice-dishes': 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=400&fit=crop'
-    }
-    return imageMap[categoryId] || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop'
-  }
 
   // Helper function to calculate average price for category
   function calculateAveragePrice(items: any[]): number {
@@ -83,7 +74,7 @@ export default function Menu() {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h4" sx={{ mb: 3, textAlign: 'center' }}>
-        メニュー
+        メニュー一覧
       </Typography>
       
       {/* ShoppedContainer at top */}
