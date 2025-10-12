@@ -23,12 +23,14 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useCart } from '../_components/CartContext'
+import { useDateTime } from '../_components/DateTimeContext'
 import { MenuItem } from '../../zod'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 export default function ConfirmPage() {
   const { cartItems, removeFromCart, clearCart, getTotalItems } = useCart()
+  const { dateTime } = useDateTime()
   const router = useRouter()
 
   // Calculate totals
@@ -115,6 +117,23 @@ export default function ConfirmPage() {
           注文確認
         </Typography>
       </Box>
+
+      {/* Date and Time Display */}
+      <Card elevation={2} sx={{ mb: 3 }}>
+        <CardContent>
+          <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
+            注文日時
+          </Typography>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+              日付: {dateTime.date || '未設定'}
+            </Typography>
+            <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+              時間: {dateTime.time || '未設定'}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
 
       {/* Order Summary */}
       <Card elevation={3} sx={{ mb: 3 }}>

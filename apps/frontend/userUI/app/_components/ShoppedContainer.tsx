@@ -27,8 +27,8 @@ export default function ShoppedContainer({ menuItems }: ShoppedContainerProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
   // Get all menu items as flat array and filter only items in cart
-  const allMenuItems = Object.values(menuItems).flat()
-  const cartedItems = allMenuItems.filter(item => getItemCount(item.id) > 0)
+  const allMenuItems: MenuItem[] = Object.values(menuItems).flat()
+  const cartedItems: MenuItem[] = allMenuItems.filter(item => getItemCount(item.id) > 0)
   
   if (cartedItems.length === 0) {
     return (

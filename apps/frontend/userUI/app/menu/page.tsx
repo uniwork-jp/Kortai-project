@@ -1,14 +1,19 @@
 'use client'
 
 import { useState, useMemo, useEffect } from 'react'
-import { Box, Typography, Grid, Button } from '@mui/material'
+import { Box, Typography, Grid, Button, Fab, Badge } from '@mui/material'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ShoppedContainer from '../_components/ShoppedContainer'
 import CategoryContainer from '../_components/CategoryContainer'
 import { MenuItem, Category, rawMenuSchema, RawMenuCategory, RawMenuItem } from '../../zod'
+import { useCart } from '../_components/CartContext'
 import menuData from '../../menu.json'
 import menuImages from '../../menuImages.json'
+import { useRouter } from 'next/navigation'
 
 export default function Menu() {
+  const { getTotalItems } = useCart()
+  const router = useRouter()
 
   // Transform menu.json data to match our component structure
   const { categories, menuItems } = useMemo(() => {
@@ -55,8 +60,12 @@ export default function Menu() {
   }
 
 
+  const handleCartClick = () => {
+    router.push('/confirm')
+  }
+
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, position: 'relative' }}>
       <Typography variant="h4" sx={{ mb: 3, textAlign: 'center' }}>
         メニュー一覧
       </Typography>
@@ -74,6 +83,27 @@ export default function Menu() {
           </Box>
         ))}
       </Box>
+
+      {/* Floating Cart Button */}
+      <Fab
+        color="primary"
+        aria-label="cart"
+        onClick={handleCartClick}
+        disabled={getTotalItems() === 0}
+        sx={{
+          position: 'fixed',
+          bottom: 24,
+          right: 'calc(50vw - 230px + 24px)', // Center within mobile container (460px/2 = 230px)
+          zIndex: 1000,
+          '@media (max-width: 460px)': {
+            right: 24, // Fallback for smaller screens
+          }
+        }}
+      >
+        <Badge badgeContent={getTotalItems()} color="error">
+          <ShoppingCartIcon />
+        </Badge>
+      </Fab>
     </Box>
   )
 }
