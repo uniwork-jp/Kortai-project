@@ -184,7 +184,7 @@ pnpm format
 - **UI**: `http://localhost:4000`
 
 ### **パッケージ構造**
-- **フロントエンド**: `apps/frontend/app` (LIFFアプリケーション)
+- **フロントエンド**: `apps/frontend/userUI` (LIFFアプリケーション)
 - **バックエンド**: `apps/backend` (Firebase Functions)
 - **パッケージ**: `packages/*` (共有ユーティリティ)
 

@@ -40,7 +40,7 @@ When you first access the HTTPS version, your browser will show a security warni
 
 ## Certificate Details
 
-- **Location**: `apps/frontend/app/certificates/`
+- **Location**: `apps/frontend/userUI/certificates/`
 - **Files**: 
   - `localhost-key.pem` - Private key
   - `localhost.pem` - Certificate

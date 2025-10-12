@@ -44,7 +44,7 @@ AI-Assistant/
 │   │       │   └── prod/       # 本番環境
 │   │       └── TERRAFORM_GUIDE.md # Terraformガイド
 │   └── frontend/            # フロントエンドアプリケーション
-│       ├── app/             # メインフロントエンドアプリ
+│       ├── userUI/          # メインフロントエンドアプリ
 │       │   ├── package.json
 │       │   ├── APP.md       # アプリドキュメント
 │       │   └── HTTPS_SETUP.md # HTTPSセットアップガイド
@@ -181,7 +181,7 @@ pnpm dev:backend
 
 ## 📱 アプリケーション概要
 
-### フロントエンドアプリ (`apps/frontend/app`)
+### フロントエンドアプリ (`apps/frontend/userUI`)
 - AI秘書Botアプリケーション
 - LINE風のモバイルUIインターフェース
 - チャット機能とタスク実行機能

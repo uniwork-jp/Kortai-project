@@ -1,5 +1,5 @@
 {
-  "name": "@ai-assistant/frontend-app",
+  "name": "@ai-assistant/frontend-userUI",
   "version": "0.1.0",
   "private": true,
   "scripts": {

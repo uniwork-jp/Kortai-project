@@ -72,7 +72,7 @@
 
 - **Firebase設定**: `apps/backend/firebase.json`
 - **環境変数**: `packages/config/env.ts`
-- **Next.js設定**: `apps/frontend/app/next.config.js`
+- **Next.js設定**: `apps/frontend/userUI/next.config.js`
 
 ## 注意事項
 
