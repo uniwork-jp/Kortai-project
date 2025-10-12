@@ -1,17 +1,14 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { Box, Typography, Grid, Button } from '@mui/material'
 import ShoppedContainer from '../_components/ShoppedContainer'
 import CategoryContainer from '../_components/CategoryContainer'
 import { MenuItem, Category, rawMenuSchema, RawMenuCategory, RawMenuItem } from '../../zod'
-import { useCart } from '../_components/CartContext'
 import menuData from '../../menu.json'
 import menuImages from '../../menuImages.json'
 
 export default function Menu() {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const { cartItems, updateQuantity, getItemCount } = useCart()
 
   // Transform menu.json data to match our component structure
   const { categories, menuItems } = useMemo(() => {
@@ -22,7 +19,7 @@ export default function Menu() {
       id: category.id,
       title: category.ja_name,
       imageUrl: category.imageUrl,
-      price: calculateAveragePrice(category.items),
+      price: calculateAveragePrice(category.items), 
       name: category.name,
       thai_name: category.thai_name,
       ja_name: category.ja_name
@@ -57,19 +54,6 @@ export default function Menu() {
     return Math.round(total / items.length)
   }
 
-
-  const handleCategoryClick = (categoryId: string) => {
-    setSelectedCategory(categoryId)
-  }
-
-  const handleQuantityChange = (item: MenuItem, quantity: number) => {
-    updateQuantity(item.id, quantity)
-  }
-
-  const getCategoryCartCount = (categoryId: string) => {
-    const items = menuItems[categoryId] || []
-    return items.reduce((total, item) => total + getItemCount(item.id), 0)
-  }
 
   return (
     <Box sx={{ p: 3 }}>

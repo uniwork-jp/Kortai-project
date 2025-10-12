@@ -13,8 +13,10 @@ import {
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from './CartContext'
 import { MenuItem } from '../../zod'
+import Link from 'next/link'
 
 interface ShoppedContainerProps {
   menuItems: Record<string, MenuItem[]>
@@ -164,7 +166,7 @@ export default function ShoppedContainer({ menuItems }: ShoppedContainerProps) {
                 color="primary" 
                 variant="outlined"
               />
-              {currentItem.tags?.map((tag, index) => (
+              {currentItem.tags?.map((tag: string, index: number) => (
                 <Chip 
                   key={index} 
                   label={tag} 
@@ -231,6 +233,25 @@ export default function ShoppedContainer({ menuItems }: ShoppedContainerProps) {
           ))}
         </Box>
       )}
+
+      {/* Checkout Button */}
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+        <Link href="/confirm">
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<ShoppingCartCheckoutIcon />}
+            sx={{
+              minWidth: 200,
+              py: 1.5,
+              fontSize: '1.1rem',
+              fontWeight: 'bold'
+            }}
+          >
+            注文確認へ
+          </Button>
+        </Link>
+      </Box>
     </Paper>
   )
 }

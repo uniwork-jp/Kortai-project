@@ -16,11 +16,7 @@ interface CategoryContainerProps {
 }
 
 export default function CategoryContainer({ menuItems, category }: CategoryContainerProps) {
-  const { getItemCount, updateQuantity } = useCart()
-
-  const handleQuantityChange = (item: MenuItem, quantity: number) => {
-    updateQuantity(item.id, quantity)
-  }
+  const { getItemCount } = useCart()
 
   if (!category) {
     return (

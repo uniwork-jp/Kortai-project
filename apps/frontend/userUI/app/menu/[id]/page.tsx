@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { 
   Box, 
@@ -14,7 +14,7 @@ import {
   Divider
 } from '@mui/material'
 import { ArrowBack, Add, Remove } from '@mui/icons-material'
-import { MenuItem, rawMenuSchema, RawMenuCategory, RawMenuItem } from '../../../zod'
+import { MenuItem, rawMenuSchema, RawMenuItem } from '../../../zod'
 import { useCart } from '../../_components/CartContext'
 import menuData from '../../../menu.json'
 import menuImages from '../../../menuImages.json'
@@ -22,7 +22,7 @@ import menuImages from '../../../menuImages.json'
 export default function MenuItemPage() {
   const params = useParams()
   const router = useRouter()
-  const { cartItems, updateQuantity, getItemCount } = useCart()
+  const { cartItems, increaseItem, decreaseItem, getItemCount, addToCart } = useCart()
   const menuItemId = params.id as string
 
   // Transform menu.json data to find the specific menu item
@@ -30,7 +30,7 @@ export default function MenuItemPage() {
     const validatedMenu = rawMenuSchema.parse(menuData)
     
     for (const category of validatedMenu.menu.categories) {
-      const item = category.items.find(item => item.id === menuItemId)
+      const item = category.items.find((item: RawMenuItem) => item.id === menuItemId)
       if (item) {
         return {
           id: item.id,
@@ -43,7 +43,7 @@ export default function MenuItemPage() {
           pictureUri: menuImages[item.id as keyof typeof menuImages] || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
           categoryId: category.id,
           categoryName: category.name,
-          categoryThaiName: category.thai_name
+          categoryThaiName: category.thai_name,
         } as MenuItem & { categoryId: string, categoryName: string, categoryThaiName: string }
       }
     }
@@ -67,10 +67,25 @@ export default function MenuItemPage() {
     )
   }
 
-  const currentQuantity = getItemCount(menuItem.id)
+  const currentQuantity = getItemCount(menuItemId)
 
-  const handleQuantityChange = (newQuantity: number) => {
-    updateQuantity(menuItem.id, newQuantity)
+  const handleIncrease = () => {
+    console.log('handleIncrease called:', { currentCartItems: cartItems })
+    increaseItem(menuItem)
+  }
+
+  const handleDecrease = () => {
+    console.log('handleDecrease called:', { currentCartItems: cartItems })
+    if (cartItems[menuItem.id]) {
+      decreaseItem(menuItemId)
+    }
+  }
+
+  const handleAddToCart = () => {
+    console.log('handleAddToCart called:', { currentCartItems: cartItems })
+    addToCart(menuItem)
+    // Navigate back to menu page after adding to cart
+    router.push('/menu')
   }
 
   return (
@@ -140,23 +155,39 @@ export default function MenuItemPage() {
           <Box sx={{ mt: 'auto' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
               <Typography variant="h6">数量</Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <IconButton 
-                  onClick={() => handleQuantityChange(Math.max(0, currentQuantity - 1))}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleDecrease}
                   disabled={currentQuantity === 0}
-                  color="primary"
+                  sx={{ 
+                    minWidth: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold'
+                  }}
                 >
                   <Remove />
-                </IconButton>
-                <Typography variant="h6" sx={{ minWidth: '40px', textAlign: 'center' }}>
+                </Button>
+                <Typography variant="h4" sx={{ minWidth: '60px', textAlign: 'center', fontWeight: 'bold' }}>
                   {currentQuantity}
                 </Typography>
-                <IconButton 
-                  onClick={() => handleQuantityChange(currentQuantity + 1)}
-                  color="primary"
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleIncrease}
+                  sx={{ 
+                    minWidth: '60px',
+                    height: '60px',
+                    borderRadius: '50%',
+                    fontSize: '1.5rem',
+                    fontWeight: 'bold'
+                  }}
                 >
                   <Add />
-                </IconButton>
+                </Button>
               </Box>
             </Box>
 
@@ -165,7 +196,7 @@ export default function MenuItemPage() {
               variant="contained"
               size="large"
               fullWidth
-              onClick={() => handleQuantityChange(currentQuantity + 1)}
+              onClick={handleAddToCart}
               sx={{ py: 1.5 }}
             >
               カートに追加

@@ -25,18 +25,11 @@ export const rawMenuSchema = z.object({
 })
 
 // Transformed schemas for components
-export const menuItemSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  description: z.string().optional(),
-  price: z.number(),
+export const menuItemSchema = rawMenuItemSchema.extend({
   category: z.string(),
   isAvailable: z.boolean().default(true),
   tags: z.array(z.string()).optional(),
-  allergens: z.array(z.string()).optional(),
-  thai_name: z.string().optional(),
-  pictureUri: z.string().optional(),
-  imageUrl: z.string().optional()
+  imageUrl: z.string().optional(),
 })
 
 export const categorySchema = z.object({
@@ -54,6 +47,12 @@ export const menuSchema = z.object({
   menuItems: z.record(z.string(), z.array(menuItemSchema))
 })
 
+// Cart item schema
+export const cartItemSchema = z.object({
+  menuItem: menuItemSchema,
+  amount: z.number()
+})
+
 // Partial schemas for flexible validation
 export const partialMenuItemSchema = menuItemSchema.partial()
 export const partialCategorySchema = categorySchema.partial()
@@ -64,6 +63,7 @@ export type RawMenuItem = z.infer<typeof rawMenuItemSchema>
 export type RawMenuCategory = z.infer<typeof rawMenuCategorySchema>
 export type RawMenu = z.infer<typeof rawMenuSchema>
 export type MenuItem = z.infer<typeof menuItemSchema>
+export type CartItem = z.infer<typeof cartItemSchema>
 export type Category = z.infer<typeof categorySchema>
 export type Menu = z.infer<typeof menuSchema>
 export type PartialMenuItem = z.infer<typeof partialMenuItemSchema>

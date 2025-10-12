@@ -31,7 +31,7 @@ export default function ThumbCard({
   const handleCardClick = () => {
     if (onClick) {
       onClick()
-    } else {
+    } else {      
       router.push(`/menu/${menuId}`)
     }
   }
