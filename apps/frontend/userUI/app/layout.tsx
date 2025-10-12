@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import ClientLayoutWrapper from './_components/ClientLayoutWrapper'
+import { BackgroundContainer, MobileContainer } from '@ai-assistant/components'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,9 +21,11 @@ export default function RootLayout({
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
       <body className={inter.className}>
-        <ClientLayoutWrapper>
-          {children}
-        </ClientLayoutWrapper>
+        <BackgroundContainer>
+          <MobileContainer>
+            {children}
+          </MobileContainer>
+        </BackgroundContainer>
       </body>
     </html>
   )
