@@ -4,6 +4,7 @@ import './globals.css'
 import { BackgroundContainer, MobileContainer } from '@ai-assistant/components'
 import ThemeProvider from './_components/ThemeProvider'
 import { DateTimeProvider } from './_components/DateTimeContext'
+import { CartProvider } from './_components/CartContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,11 +26,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider>
           <DateTimeProvider initialDate="2024-01-15" initialTime="14:30">
-            <BackgroundContainer>
-              <MobileContainer>
-                {children}
-              </MobileContainer>
-            </BackgroundContainer>
+            <CartProvider>
+              <BackgroundContainer>
+                <MobileContainer>
+                  {children}
+                </MobileContainer>
+              </BackgroundContainer>
+            </CartProvider>
           </DateTimeProvider>
         </ThemeProvider>
       </body>
