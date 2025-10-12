@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/navigation'
 import { 
   Card, 
   CardMedia, 
@@ -25,21 +26,30 @@ export default function ThumbCard({
   cartCount = 0,
   onClick 
 }: ThumbCardProps) {
+  const router = useRouter()
+
+  const handleCardClick = () => {
+    if (onClick) {
+      onClick()
+    } else {
+      router.push(`/menu/${menuId}`)
+    }
+  }
   return (
     <Card 
       sx={{ 
         width: '100%',
         aspectRatio: '1',
-        cursor: onClick ? 'pointer' : 'default',
+        cursor: 'pointer',
         transition: 'transform 0.2s ease-in-out',
         position: 'relative',
         overflow: 'hidden',
-        '&:hover': onClick ? {
+        '&:hover': {
           transform: 'scale(1.05)',
           boxShadow: 6
-        } : {}
+        }
       }}
-      onClick={onClick}
+      onClick={handleCardClick}
     >
       <CardMedia
         component="img"
@@ -59,7 +69,7 @@ export default function ThumbCard({
       <Box
         sx={{
           position: 'absolute',
-          top: 8,
+          bottom: 8,
           right: 8,
           background: 'rgba(0,0,0,0.7)',
           color: 'white',
