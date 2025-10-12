@@ -1,0 +1,745 @@
+openapi: 3.0.3
+info:
+  title: AI Assistant API
+  version: 1.0.0
+  description: API for AI Assistant application
+  contact:
+    name: AI Assistant Team
+servers:
+  - url: https://your-project-id.cloudfunctions.net/api
+    description: Firebase Functions production server
+  - url: http://localhost:5001/your-project-id/us-central1/api
+    description: Firebase Functions local development server
+paths:
+  # Authentication APIs
+  /auth/line:
+    post:
+      summary: Verify LIFF idToken and issue Firebase custom token
+      description: Verify LIFF idToken and issue Firebase custom token
+      operationId: verifyLiffToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LiffTokenInput"
+            example:
+              idToken: "eyJhbGciOiJSUzI1NiIs..."
+              accessToken: "access_token_here"
+              profile: {}
+      responses:
+        "200":
+          description: Firebase custom token issued successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FirebaseTokenResponse"
+        "400":
+          description: Bad request - invalid token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/session:
+    get:
+      summary: Get NextAuth.js session
+      description: Retrieve the current user session
+      operationId: getSession
+      responses:
+        "200":
+          description: Session retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionResponse"
+        "401":
+          description: Unauthorized - no valid session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # User Profile APIs
+  /user/profile:
+    get:
+      summary: Get user profile by Firebase UID
+      description: Retrieve user profile information using Firebase UID
+      operationId: getUserProfile
+      security:
+        - FirebaseAuth: []
+      responses:
+        "200":
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "401":
+          description: Unauthorized - authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: User profile not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /user/line-profile:
+    get:
+      summary: Get LINE user profile
+      description: Retrieve user profile using LINE access token
+      operationId: getLineProfile
+      security:
+        - FirebaseAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token with LINE access token
+          schema:
+            type: string
+            example: "Bearer line_access_token_here"
+      responses:
+        "200":
+          description: LINE profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfile"
+        "401":
+          description: Unauthorized - invalid access token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # Gmail APIs
+  /gmail/messages:
+    get:
+      summary: Get Gmail messages
+      description: Retrieve Gmail messages list
+      operationId: getGmailMessages
+      security:
+        - FirebaseAuth: []
+      parameters:
+        - name: page
+          in: query
+          description: Page number for pagination
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: Number of messages per page
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        "200":
+          description: Gmail messages retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GmailMessagesResponse"
+        "401":
+          description: Unauthorized - authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /gmail/messages/{id}:
+    get:
+      summary: Get specific Gmail message
+      description: Retrieve details of a specific Gmail message
+      operationId: getGmailMessage
+      security:
+        - FirebaseAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Gmail message ID
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Gmail message retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GmailMessageDetail"
+        "401":
+          description: Unauthorized - authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /gmail/reply:
+    post:
+      summary: Reply to Gmail message
+      description: Send a reply to a Gmail message
+      operationId: replyToGmailMessage
+      security:
+        - FirebaseAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GmailReplyInput"
+            example:
+              messageId: "msg_123"
+              replyText: "Thank you for your message..."
+              attachments: []
+      responses:
+        "200":
+          description: Reply sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GmailReplyResponse"
+        "400":
+          description: Bad request - invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized - authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # LINE Chat APIs
+  /line/chat:
+    post:
+      summary: Send LINE chat message
+      description: Send a message to LINE chat
+      operationId: sendLineChatMessage
+      security:
+        - FirebaseAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LineChatInput"
+            example:
+              message: "Hello, this is a test message"
+              userId: "user_123"
+              replyToken: "reply_token_here"
+      responses:
+        "200":
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LineChatResponse"
+        "400":
+          description: Bad request - invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: Unauthorized - authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  # Other APIs
+  /logout:
+    post:
+      summary: Logout user
+      description: Destroy session and logout user
+      operationId: logoutUser
+      responses:
+        "200":
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LogoutResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /protected:
+    get:
+      summary: Protected API sample
+      description: Sample protected API endpoint that requires authentication
+      operationId: getProtectedData
+      security:
+        - FirebaseAuth: []
+      responses:
+        "200":
+          description: Protected data retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProtectedResponse"
+        "401":
+          description: Unauthorized - authentication required
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /test-chat:
+    get:
+      summary: Test chat endpoint health check
+      description: Check if the test chat endpoint is working
+      operationId: testChatHealthCheck
+      responses:
+        "200":
+          description: Test chat endpoint is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Test chat endpoint is working!"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  status:
+                    type: string
+                    example: "healthy"
+    post:
+      summary: Send test chat message
+      description: Send a test message to the chat system and receive a mock AI response
+      operationId: sendTestChatMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TestChatInput"
+            example:
+              message: "Hello, this is a test message"
+              userId: "test-user-123"
+              category: "test"
+      responses:
+        "201":
+          description: Test message sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TestChatResponse"
+        "400":
+          description: Bad request - invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /health:
+    get:
+      summary: Health check
+      description: Check if the API is running and healthy
+      operationId: healthCheck
+      responses:
+        "200":
+          description: API is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                  version:
+                    type: string
+                    example: "1.0.0"
+components:
+  schemas:
+    # Authentication schemas
+    LiffTokenInput:
+      type: object
+      required:
+        - idToken
+      properties:
+        idToken:
+          type: string
+          description: LIFF idToken from LINE
+          example: "eyJhbGciOiJSUzI1NiIs..."
+        accessToken:
+          type: string
+          nullable: true
+          description: Optional LINE access token
+          example: "access_token_here"
+        profile:
+          type: object
+          nullable: true
+          description: Optional LINE user profile
+          additionalProperties: true
+    FirebaseTokenResponse:
+      type: object
+      required:
+        - firebaseUid
+        - customToken
+        - decoded
+      properties:
+        firebaseUid:
+          type: string
+          description: Firebase user ID
+          example: "firebase_user_123"
+        customToken:
+          type: string
+          description: Firebase custom token
+          example: "eyJhbGciOiJSUzI1NiIs..."
+        decoded:
+          type: object
+          description: Decoded token information
+          additionalProperties: true
+    SessionResponse:
+      type: object
+      required:
+        - user
+      properties:
+        user:
+          type: object
+          required:
+            - firebaseUid
+          properties:
+            firebaseUid:
+              type: string
+              description: Firebase user ID
+              example: "firebase_user_123"
+            displayName:
+              type: string
+              nullable: true
+              description: User display name
+              example: "John Doe"
+            pictureUrl:
+              type: string
+              nullable: true
+              description: User profile picture URL
+              example: "https://example.com/profile.jpg"
+    # User Profile schemas
+    UserProfile:
+      type: object
+      required:
+        - userId
+        - displayName
+        - pictureUrl
+        - statusMessage
+      properties:
+        userId:
+          type: string
+          description: User ID
+          example: "user_123"
+        displayName:
+          type: string
+          description: User display name
+          example: "John Doe"
+        pictureUrl:
+          type: string
+          description: User profile picture URL
+          example: "https://example.com/profile.jpg"
+        statusMessage:
+          type: string
+          description: User status message
+          example: "Hello, I'm using AI Assistant!"
+    # Gmail schemas
+    GmailMessagesResponse:
+      type: object
+      required:
+        - messages
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/GmailMessage"
+    GmailMessage:
+      type: object
+      required:
+        - id
+        - subject
+        - sender
+        - body
+        - timestamp
+      properties:
+        id:
+          type: string
+          description: Gmail message ID
+          example: "msg_123"
+        subject:
+          type: string
+          description: Email subject
+          example: "Important Meeting Tomorrow"
+        sender:
+          type: string
+          description: Sender email address
+          example: "sender@example.com"
+        body:
+          type: string
+          description: Email body content
+          example: "Hi, let's meet tomorrow at 2 PM..."
+        timestamp:
+          type: string
+          format: date-time
+          description: When the email was received
+          example: "2024-01-15T10:30:00Z"
+    GmailMessageDetail:
+      allOf:
+        - $ref: "#/components/schemas/GmailMessage"
+        - type: object
+          properties:
+            attachments:
+              type: array
+              items:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                    example: "document.pdf"
+                  size:
+                    type: integer
+                    example: 1024
+                  contentType:
+                    type: string
+                    example: "application/pdf"
+    GmailReplyInput:
+      type: object
+      required:
+        - messageId
+        - replyText
+      properties:
+        messageId:
+          type: string
+          description: Gmail message ID to reply to
+          example: "msg_123"
+        replyText:
+          type: string
+          description: Reply message content
+          example: "Thank you for your message..."
+        attachments:
+          type: array
+          nullable: true
+          description: Optional attachments
+          items:
+            type: object
+            properties:
+              filename:
+                type: string
+              content:
+                type: string
+                format: binary
+    GmailReplyResponse:
+      type: object
+      required:
+        - success
+        - replyId
+      properties:
+        success:
+          type: boolean
+          description: Whether the reply was sent successfully
+          example: true
+        replyId:
+          type: string
+          description: ID of the sent reply
+          example: "reply_456"
+    # LINE Chat schemas
+    LineChatInput:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Message content to send
+          example: "Hello, this is a test message"
+        userId:
+          type: string
+          nullable: true
+          description: Optional user ID for targeted messaging
+          example: "user_123"
+        replyToken:
+          type: string
+          nullable: true
+          description: Optional reply token for responding to specific messages
+          example: "reply_token_here"
+    LineChatResponse:
+      type: object
+      required:
+        - success
+        - messageId
+      properties:
+        success:
+          type: boolean
+          description: Whether the message was sent successfully
+          example: true
+        messageId:
+          type: string
+          description: ID of the sent message
+          example: "msg_789"
+    # Test Chat schemas
+    TestChatInput:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Test message content
+          example: "Hello, this is a test message"
+        userId:
+          type: string
+          nullable: true
+          description: Optional user ID for testing
+          example: "test-user-123"
+        category:
+          type: string
+          nullable: true
+          description: Optional message category
+          example: "test"
+    TestChatResponse:
+      type: object
+      required:
+        - success
+        - messageId
+        - originalMessage
+        - aiResponse
+        - timestamp
+      properties:
+        success:
+          type: boolean
+          description: Whether the test message was processed successfully
+          example: true
+        messageId:
+          type: string
+          description: Unique ID for the test message
+          example: "test-msg-1705312345678"
+        originalMessage:
+          type: string
+          description: The original test message sent
+          example: "Hello, this is a test message"
+        aiResponse:
+          type: string
+          description: Mock AI response to the test message
+          example: "I understand your test message. This is a mock response."
+        timestamp:
+          type: string
+          format: date-time
+          description: When the test message was processed
+          example: "2024-01-15T10:30:00Z"
+        userId:
+          type: string
+          nullable: true
+          description: User ID used for the test
+          example: "test-user-123"
+        category:
+          type: string
+          nullable: true
+          description: Category of the test message
+          example: "test"
+    # Other API schemas
+    LogoutResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: Whether logout was successful
+          example: true
+    ProtectedResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: Protected data message
+          example: "This is protected data"
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+        - timestamp
+      properties:
+        error:
+          type: string
+          description: Error code or type
+          example: "VALIDATION_ERROR"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "The message field is required"
+        timestamp:
+          type: string
+          format: date-time
+          description: When the error occurred
+          example: "2024-01-15T10:30:00Z"
+        details:
+          type: object
+          nullable: true
+          description: Additional error details
+          additionalProperties: true
+  securitySchemes:
+    FirebaseAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Firebase Authentication JWT token
+security:
+  - FirebaseAuth: []
+ 

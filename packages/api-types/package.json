@@ -1,0 +1,26 @@
+{
+  "name": "@ai-assistant/api-types",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenAPI → Zod/Types 出力物 (生成専用パッケージ)",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "type-check": "tsc --noEmit",
+    "generate": "cd ../../openapi/generators && npm run generate:all",
+    "generate:types": "cd ../../openapi/generators && npx tsx generate-types.ts",
+    "generate:zod": "cd ../../openapi/generators && npx tsx generate-zod.ts",
+    "generate:all": "npm run generate:types && npm run generate:zod && npm run build"
+  },
+  "dependencies": {
+    "zod": "^3.22.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}

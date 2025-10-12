@@ -1,0 +1,677 @@
+openapi: 3.0.3
+info:
+  title: AI Assistant API
+  version: 1.0.0
+  description: API for AI Assistant application with Google Calendar integration
+  contact:
+    name: AI Assistant Team
+servers:
+  - url: https://your-project-id.cloudfunctions.net/api
+    description: Firebase Functions production server
+  - url: http://localhost:5001/your-project-id/us-central1/api
+    description: Firebase Functions local development server
+
+paths:
+  /schedule:
+    post:
+      summary: Validate calendar event creation from natural language
+      description: 自然言語テキストを受け取り、カレンダーイベントの作成が可能かどうかを判定
+      operationId: validateScheduleCreation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NaturalLanguageInput"
+            example:
+              text: "明日の午後2時に会議を予定してください"
+      responses:
+        "200":
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationResponse"
+        "400":
+          description: Bad request - invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    get:
+      summary: Get scheduled events
+      description: スケジュールされたイベントの一覧を取得
+      operationId: getScheduledEvents
+      parameters:
+        - name: date
+          in: query
+          description: Filter events by date (YYYY-MM-DD format)
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: calendar_id
+          in: query
+          description: Filter events by calendar ID
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of calendar events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CalendarEvent"
+        "400":
+          description: Bad request - invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    delete:
+      summary: Delete a scheduled event
+      description: 指定されたイベントを削除
+      operationId: deleteScheduledEvent
+      parameters:
+        - name: event_id
+          in: path
+          description: ID of the event to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Event deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SuccessResponse"
+        "404":
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    patch:
+      summary: Update a scheduled event
+      description: 既存のイベントを更新
+      operationId: updateScheduledEvent
+      parameters:
+        - name: event_id
+          in: path
+          description: ID of the event to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EventUpdateInput"
+      responses:
+        "200":
+          description: Event updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalendarEvent"
+        "400":
+          description: Bad request - invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    NaturalLanguageInput:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: Natural language text describing the event
+          example: "明日の午後2時に会議を予定してください"
+
+    ValidationResponse:
+      type: object
+      required:
+        - valid
+      properties:
+        valid:
+          type: boolean
+          description: Whether the event can be created
+          example: true
+        message:
+          type: string
+          description: Additional information about the validation
+          example: "イベント作成可能"
+
+    CalendarEvent:
+      type: object
+      required:
+        - kind
+        - etag
+        - id
+        - summary
+        - start
+        - end
+      properties:
+        kind:
+          type: string
+          description: Type of the resource
+          example: "calendar#event"
+        etag:
+          type: string
+          description: ETag of the resource
+          example: "\"1234567890\""
+        id:
+          type: string
+          description: Opaque identifier of the event
+          example: "event_123"
+        summary:
+          type: string
+          description: Title of the event
+          example: "会議"
+        description:
+          type: string
+          description: Description of the event
+          example: "プロジェクト会議"
+        location:
+          type: string
+          description: Geographic location of the event
+          example: "会議室A"
+        colorId:
+          type: string
+          description: The color of the event
+          example: "1"
+        start:
+          type: object
+          description: The start time of the event
+          properties:
+            date:
+              type: string
+              format: date
+              description: The date, in the format "yyyy-mm-dd"
+              example: "2024-01-15"
+            dateTime:
+              type: string
+              format: date-time
+              description: The time, as a combined date-time value
+              example: "2024-01-15T14:00:00+09:00"
+            timeZone:
+              type: string
+              description: The time zone in which the time is specified
+              example: "Asia/Tokyo"
+        end:
+          type: object
+          description: The end time of the event
+          properties:
+            date:
+              type: string
+              format: date
+              description: The date, in the format "yyyy-mm-dd"
+              example: "2024-01-15"
+            dateTime:
+              type: string
+              format: date-time
+              description: The time, as a combined date-time value
+              example: "2024-01-15T15:00:00+09:00"
+            timeZone:
+              type: string
+              description: The time zone in which the time is specified
+              example: "Asia/Tokyo"
+        recurrence:
+          type: array
+          items:
+            type: string
+          description: RRULE, EXRULE, RDATE and EXDATE lines for a recurring event
+          example: ["RRULE:FREQ=WEEKLY;BYDAY=MO"]
+        attendees:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The attendee's Profile ID
+              email:
+                type: string
+                format: email
+                description: The attendee's email address
+              displayName:
+                type: string
+                description: The attendee's name
+              organizer:
+                type: boolean
+                description: Whether the attendee is the organizer of the event
+              self:
+                type: boolean
+                description: Whether this entry represents the calendar on which this copy of the event appears
+              resource:
+                type: boolean
+                description: Whether the attendee is a resource
+              optional:
+                type: boolean
+                description: Whether this is an optional attendee
+              responseStatus:
+                type: string
+                enum: ["needsAction", "declined", "tentative", "accepted"]
+                description: The attendee's response status
+              comment:
+                type: string
+                description: The attendee's response comment
+              additionalGuests:
+                type: integer
+                description: Number of additional guests
+          description: The attendees of the event
+        creator:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The creator's Profile ID
+            email:
+              type: string
+              format: email
+              description: The creator's email address
+            displayName:
+              type: string
+              description: The creator's name
+            self:
+              type: boolean
+              description: Whether the creator corresponds to the calendar on which this copy of the event appears
+          description: The creator of the event
+        organizer:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The organizer's Profile ID
+            email:
+              type: string
+              format: email
+              description: The organizer's email address
+            displayName:
+              type: string
+              description: The organizer's name
+            self:
+              type: boolean
+              description: Whether the organizer corresponds to the calendar on which this copy of the event appears
+          description: The organizer of the event
+        visibility:
+          type: string
+          enum: ["default", "public", "private", "confidential"]
+          description: Visibility of the event
+          example: "default"
+        transparency:
+          type: string
+          enum: ["opaque", "transparent"]
+          description: Whether the event blocks time on the calendar
+          example: "opaque"
+        status:
+          type: string
+          enum: ["confirmed", "tentative", "cancelled"]
+          description: Status of the event
+          example: "confirmed"
+        htmlLink:
+          type: string
+          format: uri
+          description: An absolute link to this event in the Google Calendar Web UI
+          example: "https://www.google.com/calendar/event?eid=event_123"
+        iCalUID:
+          type: string
+          description: Event unique identifier as specified in RFC5545
+          example: "event_123@google.com"
+        sequence:
+          type: integer
+          description: Sequence number as per iCalendar
+          example: 0
+        reminders:
+          type: object
+          properties:
+            useDefault:
+              type: boolean
+              description: Whether the default reminders of the calendar apply to the event
+            overrides:
+              type: array
+              items:
+                type: object
+                properties:
+                  method:
+                    type: string
+                    enum: ["email", "popup"]
+                    description: The method used by this reminder
+                  minutes:
+                    type: integer
+                    description: Number of minutes before the start of the event when the reminder should trigger
+          description: Information about the event's reminders for the authenticated user
+        source:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+              description: URL of the source pointing to a resource
+            title:
+              type: string
+              description: Title of the source
+          description: Source from which the event was created
+        hangoutLink:
+          type: string
+          format: uri
+          description: An absolute link to the Google+ hangout associated with this event
+        conferenceData:
+          type: object
+          properties:
+            createRequest:
+              type: object
+              properties:
+                requestId:
+                  type: string
+                  description: The client-generated unique ID for this request
+                conferenceSolutionKey:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The conference solution type
+                status:
+                  type: object
+                  properties:
+                    statusCode:
+                      type: string
+                      enum: ["pending", "success", "failure"]
+                      description: The current status of the conference creation request
+            entryPoints:
+              type: array
+              items:
+                type: object
+                properties:
+                  entryPointType:
+                    type: string
+                    enum: ["video", "phone", "sip", "more"]
+                    description: The type of the conference entry point
+                  uri:
+                    type: string
+                    format: uri
+                    description: The URI of the entry point
+                  label:
+                    type: string
+                    description: The label for the entry point
+                  pin:
+                    type: string
+                    description: The PIN to access the conference
+                  accessCode:
+                    type: string
+                    description: The access code to access the conference
+                  meetingCode:
+                    type: string
+                    description: The meeting code to access the conference
+                  passcode:
+                    type: string
+                    description: The passcode to access the conference
+                  password:
+                    type: string
+                    description: The password to access the conference
+            conferenceSolution:
+              type: object
+              properties:
+                key:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      description: The conference solution type
+                name:
+                  type: string
+                  description: The user-visible name of this solution
+                iconUri:
+                  type: string
+                  format: uri
+                  description: The user-visible icon for this solution
+            conferenceId:
+              type: string
+              description: The ID of the conference
+            signature:
+              type: string
+              description: The signature of the conference data
+          description: Conference-related information
+        gadget:
+          type: object
+          properties:
+            type:
+              type: string
+              description: The gadget's type
+            title:
+              type: string
+              description: The gadget's title
+            link:
+              type: string
+              format: uri
+              description: The gadget's URL
+            iconLink:
+              type: string
+              format: uri
+              description: The gadget's icon URL
+            width:
+              type: integer
+              description: The gadget's width
+            height:
+              type: integer
+              description: The gadget's height
+            display:
+              type: string
+              enum: ["chip", "icon"]
+              description: The gadget's display mode
+            preferences:
+              type: object
+              additionalProperties:
+                type: string
+              description: The gadget's preferences
+          description: A gadget that extends this event
+        anyoneCanAddSelf:
+          type: boolean
+          description: Whether anyone can invite themselves to the event
+        guestsCanInviteOthers:
+          type: boolean
+          description: Whether attendees other than the organizer can invite others to the event
+        guestsCanModify:
+          type: boolean
+          description: Whether attendees other than the organizer can modify the event
+        guestsCanSeeOtherGuests:
+          type: boolean
+          description: Whether attendees other than the organizer can see who the event's attendees are
+        privateCopy:
+          type: boolean
+          description: Whether this is a private event copy where changes are not shared with other copies on other calendars
+        locked:
+          type: boolean
+          description: Whether the event is locked
+
+    EventUpdateInput:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Updated event title
+        description:
+          type: string
+          description: Updated event description
+        start:
+          type: string
+          format: date-time
+          description: Updated event start time
+        end:
+          type: string
+          format: date-time
+          description: Updated event end time
+        location:
+          type: string
+          description: Updated event location
+        attendees:
+          type: array
+          items:
+            type: string
+          description: Updated list of attendee email addresses
+
+    GoogleCalendarEvent:
+      type: object
+      required:
+        - kind
+        - etag
+        - id
+        - summary
+      properties:
+        kind:
+          type: string
+          description: Type of the resource
+          example: "calendar#calendar"
+        etag:
+          type: string
+          description: ETag of the resource
+          example: "\"1234567890\""
+        id:
+          type: string
+          description: Identifier of the calendar
+          example: "primary"
+        summary:
+          type: string
+          description: Title of the calendar
+          example: "My Calendar"
+        description:
+          type: string
+          description: Description of the calendar
+          example: "Personal calendar"
+        location:
+          type: string
+          description: Geographic location of the calendar
+          example: "Tokyo, Japan"
+        timeZone:
+          type: string
+          description: The time zone of the calendar
+          example: "Asia/Tokyo"
+        colorId:
+          type: string
+          description: The color of the calendar
+          example: "1"
+        backgroundColor:
+          type: string
+          description: The main color of the calendar in the format '#0088aa'
+          example: "#0088aa"
+        foregroundColor:
+          type: string
+          description: The foreground color of the calendar in the format '#ffffff'
+          example: "#ffffff"
+        hidden:
+          type: boolean
+          description: Whether the calendar has been hidden from the list
+          example: false
+        selected:
+          type: boolean
+          description: Whether the calendar content shows up in the calendar UI
+          example: true
+        accessRole:
+          type: string
+          description: The effective access role that the authenticated user has on the calendar
+          enum: ["freeBusyReader", "reader", "writer", "owner"]
+          example: "owner"
+        defaultReminders:
+          type: array
+          items:
+            type: object
+            properties:
+              method:
+                type: string
+                description: The method used by this reminder
+                enum: ["email", "popup"]
+              minutes:
+                type: integer
+                description: Number of minutes before the start of the event when the reminder should trigger
+          description: The default reminders that the authenticated user has for this calendar
+        notificationSettings:
+          type: object
+          properties:
+            notifications:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    description: The type of notification
+                    enum: ["eventCreation", "eventChange", "eventCancellation", "eventResponse", "agenda"]
+                  method:
+                    type: string
+                    description: The method used to deliver the notification
+                    enum: ["email"]
+          description: The notifications that the authenticated user is receiving for this calendar
+
+    SuccessResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: Indicates if the operation was successful
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "操作が正常に完了しました"
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
+          description: Error message
+          example: "リクエストが無効です"
+        code:
+          type: string
+          description: Error code
+          example: "INVALID_REQUEST"
+        details:
+          type: object
+          description: Additional error details

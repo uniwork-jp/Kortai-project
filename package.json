@@ -1,0 +1,52 @@
+{
+  "name": "ai-assistant-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean",
+    "type-check": "turbo run type-check",
+    "format": "turbo run format",
+    "format:check": "turbo run format:check",
+    "deploy:staging": "turbo run build && turbo run deploy:staging",
+    "deploy:production": "turbo run build && turbo run deploy:production",
+    "dev:app": "node scripts/dev-scripts/dev-with-mock.js",
+    "dev:app:only": "turbo run dev --filter=@ai-assistant/frontend",
+    "dev:backend": "turbo run dev --filter=@ai-assistant/backend",
+    "build:app": "turbo run build --filter=@ai-assistant/frontend/app",
+    "build:backend": "turbo run build --filter=@ai-assistant/backend",
+    "test:app": "turbo run test --filter=@ai-assistant/frontend/app",
+    "test:backend": "turbo run test --filter=@ai-assistant/backend",
+    "lint:app": "turbo run lint --filter=@ai-assistant/frontend/app",
+    "lint:backend": "turbo run lint --filter=@ai-assistant/backend",
+    "clean:all": "turbo run clean && rm -rf node_modules",
+    "install:clean": "rm -rf node_modules && pnpm install",
+    "install:all": "pnpm install --recursive",
+    "mock:start": "node scripts/mock-server/mock-server.js",
+    "mock:start-bg": "scripts/mock-server/mock-server.sh start-bg",
+    "mock:stop": "scripts/mock-server/mock-server.sh stop",
+    "mock:status": "scripts/mock-server/mock-server.sh status",
+    "mock:logs": "scripts/mock-server/mock-server.sh logs",
+    "mock:seed": "scripts/mock-server/mock-server.sh seed",
+    "mock:ui": "scripts/mock-server/mock-server.sh ui",
+    "generate:zod": "cd openapi/generators && pnpm run generate:zod",
+    "generate:types": "cd openapi/generators && pnpm run generate:types",
+    "generate:html": "cd openapi/generators && pnpm run generate:html",
+    "generate:api-types": "cd openapi/generators && pnpm run generate:all",
+    "generate:all": "cd openapi/generators && pnpm run generate:all"  
+  },
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

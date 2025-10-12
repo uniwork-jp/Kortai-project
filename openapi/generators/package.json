@@ -1,0 +1,32 @@
+{
+  "name": "@ai-assistant/openapi-generators",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenAPI スキーマから Zod スキーマと TypeScript 型を生成するスクリプト群",
+  "scripts": {
+    "generate:zod": "tsx generate-zod.ts",
+    "generate:types": "tsx generate-types.ts",
+    "generate:html": "tsx generate-html.ts",
+    "generate:all": "pnpm run generate:zod && pnpm run generate:types && pnpm run generate:html",
+    "watch:zod": "tsx --watch generate-zod.ts",
+    "watch:types": "tsx --watch generate-types.ts",
+    "watch:html": "tsx --watch generate-html.ts"
+  },
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "js-yaml": "^4.1.0",
+    "path": "^0.12.7",
+    "url": "^0.11.4",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.0",
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "bin": {
+    "generate-zod": "./generate-zod.ts",
+    "generate-types": "./generate-types.ts"
+  }
+}

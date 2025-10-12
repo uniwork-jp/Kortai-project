@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd ../.. && pnpm install --no-frozen-lockfile && pnpm turbo run build --filter=@ai-assistant/frontend-app",
+  "outputDirectory": ".next"
+}
+  
