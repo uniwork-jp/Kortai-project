@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { BackgroundContainer, MobileContainer } from '@ai-assistant/components'
 import ThemeProvider from './_components/ThemeProvider'
+import { DateTimeProvider } from './_components/DateTimeContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,11 +24,13 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider>
-          <BackgroundContainer>
-            <MobileContainer>
-              {children}
-            </MobileContainer>
-          </BackgroundContainer>
+          <DateTimeProvider initialDate="2024-01-15" initialTime="14:30">
+            <BackgroundContainer>
+              <MobileContainer>
+                {children}
+              </MobileContainer>
+            </BackgroundContainer>
+          </DateTimeProvider>
         </ThemeProvider>
       </body>
     </html>

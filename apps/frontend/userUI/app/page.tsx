@@ -6,7 +6,7 @@ import {
   Button,
 } from '@mui/material'
 import Link from 'next/link'
-import Date from './_components/Date'
+import DateForm from './_components/DateTimeForm'
 
 export default function HomePage() {
   return (
@@ -19,12 +19,14 @@ export default function HomePage() {
       height: '100%'
     }}>
       <Typography variant="h4">
-        top
+        クワタイ事前予約
       </Typography>
-      <Date date="2024-01-15" time="14:30" />
+      <DateForm 
+        onDateTimeChange={(dateTime) => console.log('Selected:', dateTime)}
+      />
       <Link href="/menu">
         <Button variant="contained">
-          Menu
+          メニュー選択へ
         </Button>
       </Link>
     </Box>
