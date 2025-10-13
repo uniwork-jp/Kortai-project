@@ -1,4 +1,4 @@
 packages:
-  - 'apps/*/userUI'
-  - 'apps/*/functions'
+  - 'apps/frontend/userUI'
+  - 'apps/backend/functions'
   - 'packages/*'
