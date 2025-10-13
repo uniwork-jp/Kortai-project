@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
-import { dateTimeFormSchema, DateTimeForm } from '../../zod'
+import { dateTimeFormSchema, DateTimeForm } from '../../schemas'
 import { useDateTime } from './DateTimeContext'
 
 interface DateFormProps {

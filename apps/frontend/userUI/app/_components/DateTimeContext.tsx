@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { DateTimeForm, DateTimeContextType } from '../../zod'
+import { DateTimeForm, DateTimeContextType } from '../../schemas'
 
 const DateTimeContext = createContext<DateTimeContextType | undefined>(undefined)
 
@@ -26,11 +26,11 @@ export function DateTimeProvider({
   }
 
   const updateDate = (date: string) => {
-    setDateTimeState(prev => ({ ...prev, date }))
+    setDateTimeState((prev: DateTimeForm) => ({ ...prev, date }))
   }
 
   const updateTime = (time: string) => {
-    setDateTimeState(prev => ({ ...prev, time }))
+    setDateTimeState((prev: DateTimeForm) => ({ ...prev, time }))
   }
 
   const resetDateTime = () => {

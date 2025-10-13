@@ -24,7 +24,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { useCart } from '../_components/CartContext'
 import { useDateTime } from '../_components/DateTimeContext'
-import { MenuItem } from '../../zod'
+import { MenuItem } from '../../schemas'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -153,7 +153,7 @@ export default function ConfirmPage() {
                 <ListItem sx={{ px: 0 }}>
                   <ListItemAvatar>
                     <Avatar
-                      src={item.pictureUri}
+                      src={item.imageUrl}
                       alt={item.name}
                       sx={{ width: 60, height: 60 }}
                       variant="rounded"

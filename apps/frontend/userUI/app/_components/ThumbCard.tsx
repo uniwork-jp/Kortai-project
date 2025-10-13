@@ -7,7 +7,7 @@ import {
   Typography,
   Badge
 } from '@mui/material'
-import { MenuItem } from '../../zod'
+import { MenuItem } from '../../schemas'
 
 interface ThumbCardProps {
   title: string

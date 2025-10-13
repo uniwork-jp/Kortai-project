@@ -1,7 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
-import { MenuItem, CartItem } from '../../zod'
+import { MenuItem, CartItem } from '../../schemas'
 
 interface CartContextType {
   cartItems: Record<MenuItem['id'], CartItem>

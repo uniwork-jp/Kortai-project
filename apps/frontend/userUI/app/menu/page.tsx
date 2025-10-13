@@ -5,10 +5,9 @@ import { Box, Typography, Grid, Button, Fab, Badge } from '@mui/material'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import ShoppedContainer from '../_components/ShoppedContainer'
 import CategoryContainer from '../_components/CategoryContainer'
-import { MenuItem, Category, rawMenuSchema, RawMenuCategory, RawMenuItem } from '../../zod'
+import { MenuItem, Category, rawMenuSchema, RawMenuCategory, RawMenuItem } from '../../schemas'
 import { useCart } from '../_components/CartContext'
 import menuData from '../../menu.json'
-import menuImages from '../../menuImages.json'
 import { useRouter } from 'next/navigation'
 
 export default function Menu() {
@@ -23,7 +22,7 @@ export default function Menu() {
     const categories: Category[] = validatedMenu.menu.categories.map((category: RawMenuCategory) => ({
       id: category.id,
       title: category.ja_name,
-      imageUrl: category.imageUrl,
+      imageUrl: '', // Default empty string since raw categories don't have imageUrl
       price: calculateAveragePrice(category.items), 
       name: category.name,
       thai_name: category.thai_name,
@@ -35,18 +34,19 @@ export default function Menu() {
       menuItems[category.id] = category.items.map((item: RawMenuItem) => ({
         id: item.id,
         name: item.ja_name,
+        ja_name: item.ja_name,
         description: item.description,
         price: item.price,
         category: category.ja_name,
         isAvailable: true,
         thai_name: item.thai_name,
-        pictureUri: menuImages[item.id as keyof typeof menuImages] || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
+        imageUrl: `/imgs/menu-images/reguler-menues/${item.id}.jpg`,
       }))
     })
 
-    console.log('Validated menu:', validatedMenu)
-    console.log('Created categories:', categories)
-    console.log('Created menuItems:', menuItems)
+    // console.log('Validated menu:', validatedMenu)
+    // console.log('Created categories:', categories)
+    // console.log('Created menuItems:', menuItems)
 
     return { categories, menuItems }
   }, [])

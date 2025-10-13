@@ -15,7 +15,7 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout'
 import { useCart } from './CartContext'
-import { MenuItem } from '../../zod'
+import { MenuItem } from '../../schemas'
 import Link from 'next/link'
 
 interface ShoppedContainerProps {
@@ -202,14 +202,6 @@ export default function ShoppedContainer({ menuItems }: ShoppedContainerProps) {
                 </Button>
               </Box>
             </Box>
-
-            {currentItem.allergens && currentItem.allergens.length > 0 && (
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="caption" color="warning.main" sx={{ fontWeight: 'bold' }}>
-                  アレルギー: {currentItem.allergens.join(', ')}
-                </Typography>
-              </Box>
-            )}
           </CardContent>
         </Card>
       </Box>

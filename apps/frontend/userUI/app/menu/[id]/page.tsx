@@ -14,10 +14,9 @@ import {
   Divider
 } from '@mui/material'
 import { ArrowBack, Add, Remove } from '@mui/icons-material'
-import { MenuItem, rawMenuSchema, RawMenuItem } from '../../../zod'
+import { MenuItem, rawMenuSchema, RawMenuItem } from '../../../schemas'
 import { useCart } from '../../_components/CartContext'
 import menuData from '../../../menu.json'
-import menuImages from '../../../menuImages.json'
 
 export default function MenuItemPage() {
   const params = useParams()
@@ -40,7 +39,7 @@ export default function MenuItemPage() {
           category: category.ja_name,
           isAvailable: true,
           thai_name: item.thai_name,
-          pictureUri: menuImages[item.id as keyof typeof menuImages] || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
+          imageUrl: `/imgs/menu-images/reguler-menues/${item.id}.jpg`,
           categoryId: category.id,
           categoryName: category.name,
           categoryThaiName: category.thai_name,
@@ -109,7 +108,7 @@ export default function MenuItemPage() {
           <CardMedia
             component="img"
             height="400"
-            image={menuItem.pictureUri}
+            image={menuItem.imageUrl}
             alt={menuItem.name}
             sx={{ objectFit: 'cover' }}
           />

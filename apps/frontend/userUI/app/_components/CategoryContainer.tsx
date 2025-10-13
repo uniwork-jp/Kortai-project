@@ -7,7 +7,7 @@ import {
   Divider
 } from '@mui/material'
 import ThumbCard from './ThumbCard'
-import { MenuItem, Category } from '../../zod'
+import { MenuItem, Category } from '../../schemas'
 import { useCart } from './CartContext'
 
 interface CategoryContainerProps {
@@ -54,7 +54,7 @@ export default function CategoryContainer({ menuItems, category }: CategoryConta
                 <ThumbCard
                   key={item.id}
                   title={item.name}
-                  imageUrl={item.pictureUri || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop'}
+                  imageUrl={item.imageUrl || 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop'}
                   menuId={item.id}
                   price={item.price}
                   cartCount={getItemCount(item.id)}
