@@ -35,10 +35,11 @@
     "generate:types": "cd openapi/generators && pnpm run generate:types",
     "generate:html": "cd openapi/generators && pnpm run generate:html",
     "generate:api-types": "cd openapi/generators && pnpm run generate:all",
-    "generate:all": "cd openapi/generators && pnpm run generate:all"  
+    "generate:all": "cd openapi/generators && pnpm run generate:all"
   },
   "devDependencies": {
-    "turbo": "^2.5.8"
+    "turbo": "^2.5.8",
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": ">=22.0.0",
@@ -48,5 +49,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "zod": "^4.1.12"
+  }
 }
