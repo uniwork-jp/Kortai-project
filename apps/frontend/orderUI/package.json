@@ -16,6 +16,7 @@
     "@ai-assistant/components": "workspace:*",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@kortai/jsons": "workspace:*",
     "@kortai/menu-types": "workspace:^",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
