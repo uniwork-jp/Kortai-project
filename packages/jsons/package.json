@@ -1,0 +1,20 @@
+{
+  "name": "@kortai/jsons",
+  "version": "1.0.0",
+  "description": "Shared JSON data files",
+  "main": "./index.ts",
+  "types": "./index.d.ts",
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "exports": {
+    ".": {
+      "import": "./index.ts",
+      "types": "./index.d.ts"
+    }
+  }
+}
+

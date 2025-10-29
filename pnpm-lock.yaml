@@ -91,6 +91,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0)(@types/react@18.3.26)(react@18.3.1)
+      '@kortai/jsons':
+        specifier: workspace:*
+        version: link:../../../packages/jsons
       '@kortai/menu-types':
         specifier: workspace:^
         version: link:../../../packages/menu-types
@@ -237,6 +240,12 @@ importers:
       react:
         specifier: ^18.2.0
         version: 18.3.1
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  packages/jsons:
+    devDependencies:
       typescript:
         specifier: ^5.0.0
         version: 5.9.3
