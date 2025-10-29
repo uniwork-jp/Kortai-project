@@ -1,4 +1,5 @@
 packages:
   - 'apps/frontend/userUI'
+  - 'apps/frontend/orderUI'
   - 'apps/backend/functions'
   - 'packages/*'
