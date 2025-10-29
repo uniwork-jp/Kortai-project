@@ -1,0 +1,367 @@
+{
+  "menu": {
+    "categories": [
+      {
+        "id": "grilled-fried",
+        "ja_name": "焼き物・揚げ物",
+        "thai_name": "ปิ้งย่างและทอด",
+        "name": "Grilled & Fried",
+        "items": [
+          {
+            "id": "meat-fish-balls",
+            "ja_name": "肉とすり身の焼団子",
+            "thai_name": "ลูกชิ้นปิ้ง",
+            "name": "Luk Chin Ping",
+            "description": "肉とすり身の焼団子",
+            "price": 880
+          },
+          {
+            "id": "fermented-sausage-grilled",
+            "ja_name": "ネームヤーン",
+            "thai_name": "แหนมย่าง",
+            "name": "Naem Yang",
+            "description": "発酵ソーセージの焼き物",
+            "price": 880
+          },
+          {
+            "id": "pork-coconut-grilled",
+            "ja_name": "ムーヤンカティ",
+            "thai_name": "หมูย่างกระทิ",
+            "name": "Moo Yang Kathi",
+            "description": "豚肉のココナッツ焼き",
+            "price": 880
+          },
+          {
+            "id": "beef-dried-grilled",
+            "ja_name": "ヌアダッディオ",
+            "thai_name": "เนื้อแดดเดียว",
+            "name": "Nua Dad Diao",
+            "description": "牛肉の干し肉焼き",
+            "price": 880
+          },
+          {
+            "id": "pork-neck-grilled",
+            "ja_name": "コームヤン",
+            "thai_name": "คอหมูย่าง",
+            "name": "Kho Moo Yang",
+            "description": "豚の喉肉の焼き物",
+            "price": 880
+          },
+          {
+            "id": "fish-cake-fried",
+            "ja_name": "トウマンバー",
+            "thai_name": "ทอดมันปลา",
+            "name": "Tod Man Pla",
+            "description": "タイ風魚のすり身揚げ",
+            "price": 880
+          },
+          {
+            "id": "chicken-wings-fried",
+            "ja_name": "手羽先のからあげ",
+            "thai_name": "ปีกไก่ทอด",
+            "name": "Pik Gai Tod",
+            "description": "手羽先の唐揚げ",
+            "price": 880
+          },
+          {
+            "id": "cilantro-omelet",
+            "ja_name": "パクチー入り卵焼き",
+            "thai_name": "ไข่เจียวผักชี",
+            "name": "Kai Chiao Pak Chi",
+            "description": "パクチー入り卵焼き",
+            "price": 880
+          }
+        ]
+      },
+      {
+        "id": "salads",
+        "ja_name": "サラダ",
+        "thai_name": "สลัด",
+        "name": "Salads",
+        "items": [
+          {
+            "id": "papaya-salad",
+            "ja_name": "ソムタム",
+            "thai_name": "ส้มตำ",
+            "name": "Som Tam",
+            "description": "青パパイヤのサラダ",
+            "price": 880
+          },
+          {
+            "id": "pork-spicy-salad",
+            "ja_name": "ヤムナントク",
+            "thai_name": "ยำน้ำตก",
+            "name": "Yam Nam Tok",
+            "description": "豚肉のスパイシーサラダ",
+            "price": 900
+          },
+          {
+            "id": "glass-noodle-salad",
+            "ja_name": "ヤムウンセン",
+            "thai_name": "ยำวุ้นเส้น",
+            "name": "Yam Wun Sen",
+            "description": "春雨サラダ",
+            "price": 880
+          },
+          {
+            "id": "minced-meat-salad",
+            "ja_name": "ラーム",
+            "thai_name": "ลาบ",
+            "name": "Laab",
+            "description": "挽肉のスパイシーハーブサラダ",
+            "price": 880
+          },
+          {
+            "id": "seafood-salad",
+            "ja_name": "ヤムタレー",
+            "thai_name": "ยำทะเล",
+            "name": "Yam Talay",
+            "description": "海鮮サラダ",
+            "price": 1000
+          },
+          {
+            "id": "banana-flower-salad",
+            "ja_name": "ヤムロンムミッ",
+            "thai_name": "ยำหลวงเมือง",
+            "name": "Yam Luang Mueang",
+            "description": "バナナの花のサラダ",
+            "price": 1000
+          }
+        ]
+      },
+      {
+        "id": "others",
+        "ja_name": "その他",
+        "thai_name": "อื่นๆ",
+        "name": "Others",
+        "items": [
+          {
+            "id": "rice-noodle-tomato-soup",
+            "ja_name": "カノーンチーンナムギョ",
+            "thai_name": "ขนมจีนน้ำเงี้ยว",
+            "name": "Khanom Chin Nam Ngiao",
+            "description": "ライスヌードルとトマトスープ",
+            "price": 900
+          },
+          {
+            "id": "fermented-sausage",
+            "ja_name": "ネーム",
+            "thai_name": "แหนม",
+            "name": "Naem",
+            "description": "発酵ソーセージ",
+            "price": 880
+          },
+          {
+            "id": "northern-herb-sausage",
+            "ja_name": "サイオア",
+            "thai_name": "ไส้อั่ว",
+            "name": "Sai Ua",
+            "description": "北部風ハーブソーセージ",
+            "price": 880
+          },
+          {
+            "id": "isan-sausage",
+            "ja_name": "サイコックイサーン",
+            "thai_name": "ไส้กรอกอีสาน",
+            "name": "Sai Krok Isan",
+            "description": "イサーン風ソーセージ",
+            "price": 950
+          },
+          {
+            "id": "shrimp-glass-noodle-steamed",
+            "ja_name": "クンオプウンセン",
+            "thai_name": "กุ้งอบวุ้นเส้น",
+            "name": "Kung Op Wun Sen",
+            "description": "エビと春雨の蒸し物",
+            "price": 900
+          },
+          {
+            "id": "tapioca-pork-balls",
+            "ja_name": "サクーサイムー",
+            "thai_name": "สาคูไส้หมู",
+            "name": "Saku Sai Moo",
+            "description": "タピオカ包みの豚肉団子",
+            "price": 900
+          },
+          {
+            "id": "herb-hot-pot",
+            "ja_name": "チムチュン",
+            "thai_name": "จิ้มจุ่ม",
+            "name": "Jim Jum",
+            "description": "ハーブ入りタイ鍋",
+            "price": 1450
+          }
+        ]
+      },
+      {
+        "id": "noodles",
+        "ja_name": "麺類",
+        "thai_name": "ก๋วยเตี๋ยว",
+        "name": "Noodles",
+        "items": [
+          {
+            "id": "pad-thai",
+            "ja_name": "パッタイ",
+            "thai_name": "ผัดไทย",
+            "name": "Pad Thai",
+            "description": "タイ風焼きそば",
+            "price": 880
+          },
+          {
+            "id": "soy-sauce-noodles",
+            "ja_name": "パッシィーイウ",
+            "thai_name": "ผัดซีอิ๊ว",
+            "name": "Pad Si Ew",
+            "description": "甘辛醤油炒め麺",
+            "price": 880
+          },
+          {
+            "id": "tom-yum-noodles",
+            "ja_name": "トムヤムクンヌードル",
+            "thai_name": "ก๋วยเตี๋ยวต้มยำ",
+            "name": "Kuay Tiew Tom Yum",
+            "description": "トムヤムスープのヌードル",
+            "price": 900
+          },
+          {
+            "id": "beef-noodles",
+            "ja_name": "牛肉ラーメン",
+            "thai_name": "ก๋วยเตี๋ยวเนื้อ",
+            "name": "Kuay Tiew Nua",
+            "description": "牛肉ラーメン",
+            "price": 900
+          },
+          {
+            "id": "rice-vermicelli",
+            "ja_name": "そうめん",
+            "thai_name": "เส้นหมี่",
+            "name": "Sen Mee",
+            "description": "そうめん",
+            "price": 200
+          }
+        ]
+      },
+      {
+        "id": "stir-fried",
+        "ja_name": "炒め物",
+        "thai_name": "ผัด",
+        "name": "Stir-fried",
+        "items": [
+          {
+            "id": "water-spinach-stir-fried",
+            "ja_name": "空芯菜炒め",
+            "thai_name": "ผัดผักบุ้งไฟแดง",
+            "name": "Pad Pak Boong Fai Daeng",
+            "description": "空芯菜炒め",
+            "price": 880
+          },
+          {
+            "id": "thai-basil-stir-fried",
+            "ja_name": "タイ風レバニラ炒め",
+            "thai_name": "ผัดกระเพรา",
+            "name": "Pad Krapao",
+            "description": "タイ風レバニラ炒め",
+            "price": 900
+          },
+          {
+            "id": "fish-sauce-stir-fried",
+            "ja_name": "ガラムナンプラー",
+            "thai_name": "ผัดพริกน้ำปลา",
+            "name": "Pad Prik Nam Pla",
+            "description": "魚醤炒め",
+            "price": 880
+          },
+          {
+            "id": "rice-noodle-gravy",
+            "ja_name": "ラードナー",
+            "thai_name": "ราดหน้า",
+            "name": "Rad Na",
+            "description": "餡かけ米麺",
+            "price": 880
+          }
+        ]
+      },
+      {
+        "id": "curries",
+        "ja_name": "カレー",
+        "thai_name": "แกง",
+        "name": "Curries",
+        "items": [
+          {
+            "id": "peanut-curry",
+            "ja_name": "パネンカレー",
+            "thai_name": "แกงพะแนง",
+            "name": "Gaeng Panaeng",
+            "description": "ピーナッツ風味のカレー",
+            "price": 880
+          },
+          {
+            "id": "red-curry",
+            "ja_name": "レッドカレー",
+            "thai_name": "แกงแดง",
+            "name": "Gaeng Daeng",
+            "description": "レッドカレー",
+            "price": 950
+          },
+          {
+            "id": "green-curry",
+            "ja_name": "グリーンカレー",
+            "thai_name": "แกงเขียวหวาน",
+            "name": "Gaeng Kiew Wan",
+            "description": "グリーンカレー",
+            "price": 880
+          }
+        ]
+      },
+      {
+        "id": "rice-dishes",
+        "ja_name": "ご飯類",
+        "thai_name": "ข้าว",
+        "name": "Rice Dishes",
+        "items": [
+          {
+            "id": "hainanese-chicken-rice",
+            "ja_name": "カオマンガイ",
+            "thai_name": "ข้าวมันไก่",
+            "name": "Khao Man Gai",
+            "description": "海南鶏飯",
+            "price": 880
+          },
+          {
+            "id": "roasted-pork-rice",
+            "ja_name": "カオムーデーン",
+            "thai_name": "ข้าวหมูแดง",
+            "name": "Khao Moo Daeng",
+            "description": "焼豚のせご飯",
+            "price": 900
+          },
+          {
+            "id": "basil-fried-rice",
+            "ja_name": "ガパオライス",
+            "thai_name": "ข้าวกะเพรา",
+            "name": "Khao Krapao",
+            "description": "ガパオライス",
+            "price": 900
+          },
+          {
+            "id": "shrimp-fried-rice",
+            "ja_name": "エビ入りチャーハン",
+            "thai_name": "ข้าวผัดกุ้ง",
+            "name": "Khao Pad Kung",
+            "description": "エビ入りチャーハン",
+            "price": 880
+          },
+          {
+            "id": "jasmine-rice",
+            "ja_name": "ジャスミンライス",
+            "thai_name": "ข้าวหอมมะลิ",
+            "name": "Khao Hom Mali",
+            "description": "ジャスミンライス",
+            "price": 200
+          }
+        ]
+      }
+    ]
+  }
+}
+
