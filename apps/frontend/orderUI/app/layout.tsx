@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { BackgroundContainer, MobileContainer } from '@ai-assistant/components'
+import { BackgroundContainer, TabletContainer } from '@ai-assistant/components'
 import ThemeProvider from './_components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,16 +17,16 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="ja">
       <head>
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
       </head>
       <body className={inter.className}>
         <ThemeProvider>
           <BackgroundContainer>
-            <MobileContainer>
+            <TabletContainer orientation="landscape">
               {children}
-            </MobileContainer>
+            </TabletContainer>
           </BackgroundContainer>
         </ThemeProvider>
       </body>

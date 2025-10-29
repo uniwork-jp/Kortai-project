@@ -7,6 +7,13 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
+  // Allow cross-origin requests in development from common network IPs
+  allowedDevOrigins: [
+    '192.168.8.100',
+    '192.168.1.100',
+    'localhost',
+    '127.0.0.1',
+  ],
   // Enable HTTPS for development
   async headers() {
     return [
