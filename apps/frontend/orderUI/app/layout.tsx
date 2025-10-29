@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { BackgroundContainer, TabletContainer } from '@ai-assistant/components'
 import ThemeProvider from './_components/ThemeProvider'
+import ClientOrderProvider from './_components/ClientOrderProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -23,11 +24,13 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider>
-          <BackgroundContainer>
-            <TabletContainer orientation="landscape">
-              {children}
-            </TabletContainer>
-          </BackgroundContainer>
+          <ClientOrderProvider>
+            <BackgroundContainer>
+              <TabletContainer orientation="landscape">
+                {children}
+              </TabletContainer>
+            </BackgroundContainer>
+          </ClientOrderProvider>
         </ThemeProvider>
       </body>
     </html>

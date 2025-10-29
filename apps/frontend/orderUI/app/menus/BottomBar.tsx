@@ -5,6 +5,7 @@ import {
   Typography,
   Button,
 } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { useOrder } from '../_components/OrderContext'
 
 type BottomBarProps = {
@@ -12,11 +13,15 @@ type BottomBarProps = {
 }
 
 export default function BottomBar({ onSubmit }: BottomBarProps) {
+  const router = useRouter()
   const { total } = useOrder()
 
   const handleSubmit = () => {
     if (onSubmit) {
       onSubmit()
+    } else {
+      // Default behavior: navigate to confirm page
+      router.push('/confirm')
     }
   }
 
